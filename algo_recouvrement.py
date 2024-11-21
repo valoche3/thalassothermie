@@ -66,3 +66,5 @@ print("Connexions minimales:")
 for a, b, poids in arbre_minimal:
     print(f"{a} <-> {b}, Distance: {poids:.2f}")
 
+
+
