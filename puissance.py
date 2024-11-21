@@ -12,7 +12,7 @@ def puissance_perdue_clim(P_el, T_ed, T_em, c_ed, c_em, D_m, efficacite): # calc
     return c_ed*D_m*temperature_sortie(T_ed, T_em, c_ed, c_em, efficacite) - P_el
 
 def temperature_mer(t, T):
-    return 5.45*np.sin(2*np.pi*t/T - np.pi/2) + 18.25
+    return 5.45*np.sin(2*np.pi*t/T - np.pi/2) + 18.25 + 273
 
 T = 365 * 24 * 3600
 T_ed = 288
@@ -22,12 +22,12 @@ efficacite = 0.7
 D_m = 6
 P_el = 8550
 X = np.linspace(0,T, 100000)
-X_2 = temperature_mer(X,T)
-Y = temperature_sortie(T_ed, X_2, c_ed, c_em, efficacite)
-Z = puissance_chaleur_sortie_pac(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
-Z_2 = puissance_perdue_clim(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
-plt.plot(X,Z, label = "Puissance thermique produite en fonctionnement de chauffagr")
-plt.plot(X, Z_2, label = "Puissance thermique pompée en fonctionnement climatiseur")
+X_mer = temperature_mer(X,T)
+Y = temperature_sortie(T_ed, X_mer, c_ed, c_em, efficacite)
+Z_chauffage = puissance_chaleur_sortie_pac(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
+Z_clim = puissance_perdue_clim(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
+plt.plot(X,Z_chauffage, label = "Puissance thermique produite en fonctionnement de chauffage")
+plt.plot(X, Z_clim, label = "Puissance thermique pompée en fonctionnement climatiseur")
 plt.xlabel("Date en s")
 plt.ylabel("Puissance en W")
 plt.show()
