@@ -19,15 +19,17 @@ T_ed = 288
 c_ed = 4185
 c_em = 4185
 efficacite = 0.7
-D_m = 10
-P_el = 100000
+D_m = 6
+P_el = 8550
 X = np.linspace(0,T, 100000)
 X_2 = temperature_mer(X,T)
 Y = temperature_sortie(T_ed, X_2, c_ed, c_em, efficacite)
 Z = puissance_chaleur_sortie_pac(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
 Z_2 = puissance_perdue_clim(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
-plt.plot(X,Z)
-plt.plot(X, Z_2)
+plt.plot(X,Z, label = "Puissance thermique produite en fonctionnement de chauffagr")
+plt.plot(X, Z_2, label = "Puissance thermique pompée en fonctionnement climatiseur")
+plt.xlabel("Date en s")
+plt.ylabel("Puissance en W")
 plt.show()
 
 
