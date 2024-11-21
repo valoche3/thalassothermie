@@ -33,8 +33,9 @@ def minimiser(graphe, batiments_utilises):
         (poids, a, b) for poids, a, b in graphe
         if a in batiments_utilises and b in batiments_utilises
     ]
-    # tri des arêtes par poids croissant
-    graphe_filtre.sort()
+   
+    graphe_filtre.sort() # tri des arêtes par poids croissant
+    
     parents = {b: b for b in batiments_utilises}
 
     def find(b):
@@ -44,13 +45,11 @@ def minimiser(graphe, batiments_utilises):
 
     def union(b1, b2):
         parents[find(b1)] = find(b2)
-
     mst = []
     for poids, a, b in graphe_filtre:
         if find(a) != find(b):
             union(a, b)
             mst.append((a, b, poids))
-
     return mst
 
 
@@ -61,7 +60,7 @@ def connecter_batiments(noms_batiments):
 
 
 
-noms_a_connecter = ["Thalassothermie", "LOT 19", "LOT 8", " LOT COFESI", "LOT 10"]
+noms_a_connecter = ["Thalassothermie", "LOT 19", "LOT 8", "LOT COFESI", "LOT 10"]
 arbre_minimal = connecter_batiments(noms_a_connecter)
 print("Connexions minimales:")
 for a, b, poids in arbre_minimal:
