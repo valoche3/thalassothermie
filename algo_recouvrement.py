@@ -33,8 +33,9 @@ def minimiser(graphe, batiments_utilises):
         (poids, a, b) for poids, a, b in graphe
         if a in batiments_utilises and b in batiments_utilises
     ]
-    # tri des arêtes par poids croissant
-    graphe_filtre.sort()
+   
+    graphe_filtre.sort() # tri des arêtes par poids croissant
+    
     parents = {b: b for b in batiments_utilises}
 
     def find(b):
