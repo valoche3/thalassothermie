@@ -7,8 +7,8 @@ def temperature_ext(t, T):
 
 def puissance_necessaire(T_voulue, T_ext, batiments):
     S = 0
-    for _, volume, R in batiments:
-        S += volume*np.abs(T_ext - T_voulue)/R
+    for _, surface, R in batiments:
+        S += surface*np.abs(T_ext - T_voulue)/R
     return S
 
 T = 365 * 24 * 3600
