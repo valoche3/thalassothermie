@@ -26,11 +26,11 @@ X_mer = temperature_mer(X,T)
 Y = temperature_sortie(T_ed, X_mer, c_ed, c_em, efficacite)
 Z_chauffage = puissance_chaleur_sortie_pac(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
 Z_clim = puissance_perdue_clim(P_el, T_ed, Y, c_ed, c_em, D_m, efficacite)
-plt.plot(X,Z_chauffage, label = "Puissance thermique produite en fonctionnement de chauffage")
-plt.plot(X, Z_clim, label = "Puissance thermique pompée en fonctionnement climatiseur")
+#plt.plot(X,Z_chauffage, label = "Puissance thermique produite en fonctionnement de chauffage")
+#plt.plot(X, Z_clim, label = "Puissance thermique pompée en fonctionnement climatiseur")
 plt.xlabel("Date en s")
 plt.ylabel("Puissance en W")
-plt.show()
+
 
 
 

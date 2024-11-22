@@ -11,4 +11,3 @@ prix_metre = 800
 arbre_minimal = connecter_batiments(noms_a_connecter)
 print("Coût de l'installation de tuyauterie en euros")
 print(cout(arbre_minimal, prix_metre)) 
-
