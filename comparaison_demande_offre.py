@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 from math import *
 from estimation_potentiel import *
 
+
+
+for i in range(12):
+    print(batiment[0])
+
+
 def recuperer_donnees():
     nombre_batiment = int(input('quel est le nombre de bâtiments considérés ?'))
 

@@ -14,7 +14,7 @@
 
 # # Estimation puissance à fournir
 
-# Dans ce code, on essaie de déterminer la puissance nécessaire pour chauffer les bâtiments du port (en hiver) ou alors les refroidir (en été). On cherchera ensuite l'énergie thermique consommée par les bâtiments.
+# Dans ce code, on détermine la puissance nécessaire pour chauffer les bâtiments du port (en hiver) ou alors les refroidir (en été).
 
 # ### Importation des librairies
 
@@ -25,7 +25,26 @@ from math import *
 
 # ## Récupération des données
 
-# En première approximation pour calculer les pertes par les surfaces latérales et le plafond, on va prendre la racine carrée de chaque surface et la multiplier par la hauteur.
+# On prévoit deux façons d'avoir les données sur les lots. D'une part, on aura une liste bâtiment déjà pré-enregistrée. D'autre part, on pourra appeler une fonction "recuperer_donnees()" qui nous permet de rentrer de nouvelles valeurs et de considérer de nouveaux scénarios.
+
+def recuperer_liste_10lots():
+
+    batiment = [(0,0,0) for i in range(nombre_batiment)]
+
+    batiment[0] = ('lot3', 118.75, 4)
+    batiment[1] = ('lot4', 581.76, 4)
+    batiment[2] = ('lot6', 225, 4)
+    batiment[3] = ('lot7', 4)
+    batiment[4] = ('lot8', 4)
+    batiment[5] = ('lot8bis', 4)
+    batiment[6] = ('lot10', 4)
+    batiment[7] = ('lot11', 4)
+    batiment[8] = ('lot12', 4)
+    batiment[9] = ('lot13', 4)
+    batiment[10] = ('lot14', 4)
+    batiment[11] = ('lot19', 4)
+
+
 
 def recuperer_donnees():
     nombre_batiment = int(input('quel est le nombre de bâtiments considérés ?'))
@@ -83,6 +102,10 @@ def recuperer_donnees():
     return batiment
 
 
+batiment = recuperer_donnees()
+
+# En première approximation pour calculer les pertes par les surfaces latérales et le plafond, on va prendre la racine carrée de chaque surface et la multiplier par la hauteur.
+
 # ### Calcul des volumes
 
 # +
@@ -119,11 +142,11 @@ def recuperer_donnees():
 
 # +
 #print(valeur_puissance_totale)
-# -
 
-plt.plot(valeur_puissance_totale)
-plt.title('Demande en puissance (W) par mois pour le port de Toulon')
-plt.show()
+# +
+#plt.plot(valeur_puissance_totale)
+#plt.title('Demande en puissance (W) par mois pour le port de Toulon')
+#plt.show()
 
 # +
 #degré jour unifié = dju
