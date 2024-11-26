@@ -76,8 +76,8 @@ def puissance_necessaire(T_voulue, T_ext, batiments):
     return S
 
 # +
-T = 365 * 24 * 3600
-T_ed = 288
+T = 365 * 24 * 3600 #le nombre de seconde dans l'année
+T_ed = 288 
 T_voulue = 296
 c_ed = 4185
 c_em = 4185
