@@ -31,13 +31,6 @@ plt.xlabel("Date en s")
 plt.ylabel("Puissance en W")
 
 
-# +
-def temperature_mer_celcius(t, T):
-    return 5.45*np.sin(2*np.pi*t/T - np.pi/2) + 18.25
-
-temperature_mer = temperature_mer_celcius(X, T)
-plt.plot(temperature_mer)
-# -
 
 
 
