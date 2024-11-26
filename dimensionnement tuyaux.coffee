@@ -36,9 +36,9 @@ def calcul_diametre_tuyau(params):
 
 # Exemple d'utilisation
 params = {
-    'puissance': 100000,  # 100 kW
+    'puissance': 200000,  # 100 kW
     'delta_temp': 5,      # 5 °C
-    'vitesse': 2          # 2 m/s
+    'vitesse': 1          # 2 m/s
 }
 
 diametre = calcul_diametre_tuyau(params)
