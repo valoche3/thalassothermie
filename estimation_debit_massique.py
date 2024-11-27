@@ -20,15 +20,7 @@ def calcul_charge_thermique(T_int, T_ext, R, G_solaire, F_solaire):
     Ps_solaire = G_solaire * F_solaire
     return (Ps_murs, Ps_solaire)
 
-def charge_thermique_ete_avec_surface(T_int, T_ext, R, G_solaire, F_solaire, surface_bureaux, surface_vitree):
-    Ps_murs, Ps_solaire = calcul_charge_thermique(T_int, T_ext, R, G_solaire, F_solaire)
-    return abs(surface_bureaux * Ps_murs + Ps_solaire * surface_vitree)
-
-def charge_thermique_hiver_avec_surface(T_int, T_ext, R, G_solaire, F_solaire, surface_bureaux, surface_vitree):
-    Ps_murs, Ps_solaire = calcul_charge_thermique(T_int, T_ext, R, G_solaire, F_solaire)
-    return abs(surface_bureaux * Ps_murs - Ps_solaire * surface_vitree)
-
-def dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete, facteur_securite=1.2):
+def charge_thermique(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete, facteur_securite=1.2):
     """
     Fonction pour dimensionner la pompe à chaleur réversible en fonction des besoins en chauffage (hiver) et en climatisation (été),
     ainsi que des heures d'occupation.
@@ -50,26 +42,21 @@ def dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, cha
     charge_thermique_ete_total = abs(surface_bureaux * Ps_murse + Ps_solairee * surface_vitree)
     
     # Application du facteur de sécurité
-    charge_thermique_hiver_semaine_avec_securite = charge_thermique_hiver_total * facteur_securite
-    charge_thermique_ete_semaine_avec_securite = charge_thermique_ete_total * facteur_securite
+    charge_thermique_hiver_avec_securite = charge_thermique_hiver_total * facteur_securite
+    charge_thermique_ete_avec_securite = charge_thermique_ete_total * facteur_securite
     
     # Conversion de la puissance en kW (1 kW = 1000 W)
-    puissance_hiver = charge_thermique_hiver_semaine_avec_securite
-    puissance_ete = charge_thermique_ete_semaine_avec_securite
+    puissance_hiver = charge_thermique_hiver_avec_securite
+    puissance_ete = charge_thermique_ete_avec_securite
     
     # La pompe à chaleur doit être dimensionnée en fonction de la charge thermique maximale
     puissance_pompe = (puissance_hiver + puissance_ete + abs(puissance_hiver - puissance_ete))/2 
     
     return puissance_pompe
 
-def temperature_sortie(T_ed, T_em, c_ed, c_em, efficacite): # calcul la température de l'eau douce en sortie d'échangeur
-    return efficacite*(c_em*T_em + c_ed*T_ed)/(c_ed+c_em)
+def debit_massique_necessaire(puissance, c_ed, delta_T):
+    return puissance/(c_ed*delta_T)
 
-def debit_massique_necessaire(P_el, c_ed, T_f, charge_thermique):
-    return (charge_thermique - P_el)/(c_ed*T_f)
-
-def temperature_mer(t, T):
-    return 5.45*np.sin(2*np.pi*t/T - np.pi/2) + 18.25 + 273
 
 def temperature_ext(t, T):
     return 20*np.sin(2*np.pi*t/T - np.pi/2) + 18.25 + 273
@@ -79,22 +66,15 @@ surface_bureaux = float(input("Entrez la surface des bureaux en m² : "))
 surface_vitree = float(input("Entrez la surface vitrée en m² :"))
 R = 4
 T = 365 * 24 * 3600  # Une année en secondes
-T_ed = 288
 c_ed = 4185
-c_em = 4185
 X = np.linspace(0, T, 100000)
 T_ext = temperature_ext(X, T)
-T_mer = temperature_mer(X, T)
-T_f = temperature_sortie(T_ed, T_mer, c_ed, c_em, 0.7)
 T_int = 21 + 273  # Température intérieure souhaitée en Kelvin
+delta_T = 10
 charge_thermique_hiver = calcul_charge_thermique(T_int, T_ext, R, 350, 0.7)
 charge_thermique_ete = calcul_charge_thermique(T_int, T_ext, R, 750, 0.7)
-charge_thermique_ete_surface = charge_thermique_ete_avec_surface(T_int, T_ext, R, 750, 0.7, surface_bureaux, surface_vitree)
-charge_thermique_hiver_surface = charge_thermique_hiver_avec_surface(T_int, T_ext, R, 350, 0.7, surface_bureaux, surface_vitree)
-
-# Calcul de la puissance nécessaire
-puissance = dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
-debit = debit_massique_necessaire(10000, c_ed, T_f, puissance)
+puissance = charge_thermique(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
+debit = debit_massique_necessaire(puissance, c_ed, delta_T)
 
 plt.plot(X, debit, label="Débit massique nécessaire")
 plt.xlabel('Temps en seconde')
