@@ -81,7 +81,7 @@ charge_thermique_hiver_surface = charge_thermique_hiver_avec_surface(T_int, T_ex
 puissance = dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
 
 # Affichage de la puissance estimée de la pompe
-#print(f"La puissance estimée de la pompe à chaleur réversible est de : {puissance:.2f} W")
+# print(f"La puissance estimée de la pompe à chaleur réversible est de : {puissance:.2f} W")
 
 # Graphique de la puissance nécessaire au cours de l'année
 plt.plot(X, puissance, label="Puissance nécessaire")
@@ -91,3 +91,11 @@ plt.xlabel("Temps (secondes)")
 plt.ylabel("Charge thermique(W)")
 plt.legend()
 plt.show()
+
+valeur_moyenne_ete = np.trapezoid(charge_thermique_ete_surface, X) / (X[-1] - X[0])
+valeur_moyenne_hiver = np.trapezoid(charge_thermique_hiver_surface, X) / (X[-1] - X[0])
+print(valeur_moyenne_ete, valeur_moyenne_hiver)
+
+
+
+
