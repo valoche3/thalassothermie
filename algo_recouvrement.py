@@ -79,7 +79,3 @@ for a, b, poids in arbre_minimal:
 print(f"\nSomme totale des distances: {somme_distances:.2f}")
 
 print(f"Volume d'eau minimal : {somme_distances * 3.14 * (0.15**2):.2f} m^3")
-
-
-
-

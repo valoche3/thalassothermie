@@ -89,7 +89,7 @@ plt.plot(X, charge_thermique_ete_surface, label="Charge thermique climatisation"
 plt.plot(X, charge_thermique_hiver_surface, label="Charge thermique chauffage")
 plt.xlabel("Temps (secondes)")
 plt.ylabel("Charge thermique(W)")
-plt.legend()
+plt.legend(loc="lower left")
 plt.show()
 
 valeur_moyenne_ete = np.trapezoid(charge_thermique_ete_surface, X) / (X[-1] - X[0])
