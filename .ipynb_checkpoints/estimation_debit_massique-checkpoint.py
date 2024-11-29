@@ -88,6 +88,6 @@ def tracer_debit():
     return()
 
 
-tracer_debit()
+
 
 
