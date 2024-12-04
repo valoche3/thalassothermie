@@ -28,7 +28,7 @@ def charge_thermique_hiver_avec_surface(T_int, T_ext, R, G_solaire, F_solaire, s
     Ps_murs, Ps_solaire = calcul_charge_thermique(T_int, T_ext, R, G_solaire, F_solaire)
     return abs(surface_bureaux * Ps_murs - Ps_solaire * surface_vitree)
 
-def dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete, facteur_securite=1.2):
+def dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete, facteur_securite):
     """
     Fonction pour dimensionner la pompe à chaleur réversible en fonction des besoins en chauffage (hiver) et en climatisation (été),
     ainsi que des heures d'occupation.
@@ -60,13 +60,14 @@ def dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, cha
     # La pompe à chaleur doit être dimensionnée en fonction de la charge thermique maximale
     puissance_pompe = (puissance_hiver + puissance_ete + abs(puissance_hiver - puissance_ete))/2 
     
-    return puissance_pompe
+    return puissance_pompe/1000
 
 def temperature_ext(t, T):
     return 20*np.sin(2*np.pi*t/T - np.pi/2) + 18.25 + 273
 
 surface_bureaux = float(input("Entrez la surface des bureaux en m² : "))
 surface_vitree = float(input("Entrez la surface vitrée en m² :"))
+facteur_securite = 1
 R = 4
 T = 365 * 24 * 3600  # Une année en secondes
 X = np.linspace(0, T, 100000)
@@ -78,17 +79,18 @@ charge_thermique_ete_surface = charge_thermique_ete_avec_surface(T_int, T_ext, R
 charge_thermique_hiver_surface = charge_thermique_hiver_avec_surface(T_int, T_ext, R, 350, 0.7, surface_bureaux, surface_vitree)
 
 # Calcul de la puissance nécessaire
-puissance = dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
+puissance = dimensionner_pompe_a_chaleur_reversible(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete, facteur_securite)
 
 # Affichage de la puissance estimée de la pompe
 # print(f"La puissance estimée de la pompe à chaleur réversible est de : {puissance:.2f} W")
 
 # Graphique de la puissance nécessaire au cours de l'année
-plt.plot(X, puissance, label="Puissance nécessaire")
-plt.plot(X, charge_thermique_ete_surface, label="Charge thermique climatisation")
-plt.plot(X, charge_thermique_hiver_surface, label="Charge thermique chauffage")
-plt.xlabel("Temps (secondes)")
-plt.ylabel("Charge thermique(W)")
+X_h = X/3600
+plt.plot(X_h, puissance, label="Puissance nécessaire")
+#plt.plot(X, charge_thermique_ete_surface, label="Charge thermique climatisation")
+#plt.plot(X, charge_thermique_hiver_surface, label="Charge thermique chauffage")
+plt.xlabel("Temps (heure)")
+plt.ylabel("Charge thermique(kW)")
 plt.legend(loc="lower left")
 plt.show()
 
