@@ -80,7 +80,9 @@ def debit():
 
 
 def tracer_debit():
-    plt.plot(X, debit(), label="Débit massique nécessaire")
+    T = 365 * 24 * 3600  # Une année en secondes
+    X = np.linspace(0, T, 100000)
+    plt.plot(X, debit, label="Débit massique nécessaire")
     plt.xlabel('Temps en seconde')
     plt.ylabel('Débit massique en kg/s')
     plt.legend()
@@ -88,6 +90,7 @@ def tracer_debit():
     return()
 
 
+debit = debit()
 tracer_debit()
 
 
