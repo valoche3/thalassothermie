@@ -62,26 +62,27 @@ def temperature_ext(t, T):
     return 20*np.sin(2*np.pi*t/T - np.pi/2) + 18.25 + 273
 
 
-def debit():
-    surface_bureaux = float(input("Entrez la surface des bureaux en m² : "))
-    surface_vitree = float(input("Entrez la surface vitrée en m² :"))
-    R = 4
-    T = 365 * 24 * 3600  # Une année en secondes
-    c_ed = 4185
-    X = np.linspace(0, T, 100000)
-    T_ext = temperature_ext(X, T)
-    T_int = 21 + 273  # Température intérieure souhaitée en Kelvin
-    delta_T = 10
-    charge_thermique_hiver = calcul_charge_thermique(T_int, T_ext, R, 350, 0.7)
-    charge_thermique_ete = calcul_charge_thermique(T_int, T_ext, R, 750, 0.7)
-    puissance = charge_thermique(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
-    debit = debit_massique_necessaire(puissance, c_ed, delta_T)
-    return(debit)
+
+surface_bureaux = float(input("Entrez la surface des bureaux en m² : "))
+surface_vitree = float(input("Entrez la surface vitrée en m² :"))
+R = 4 
+T = 365 * 24 * 3600  # Une année en secondes
+c_ed = 4185
+X = np.linspace(0, T, 100000)
+T_ext = temperature_ext(X, T)
+T_int = 21 + 273  # Température intérieure souhaitée en Kelvin
+delta_T = 10
+charge_thermique_hiver = calcul_charge_thermique(T_int, T_ext, R, 350, 0.7)
+charge_thermique_ete = calcul_charge_thermique(T_int, T_ext, R, 750, 0.7)
+puissance = charge_thermique(surface_bureaux, surface_vitree, charge_thermique_hiver, charge_thermique_ete)
+debit = debit_massique_necessaire(puissance, c_ed, delta_T)
+
 
 
 def tracer_debit():
-    plt.plot(X, debit(), label="Débit massique nécessaire")
-    plt.xlabel('Temps en seconde')
+    X_h = X/3600
+    plt.plot(X_h, debit, label="Débit massique nécessaire")
+    plt.xlabel('Temps (heure)')
     plt.ylabel('Débit massique en kg/s')
     plt.legend()
     plt.show()
