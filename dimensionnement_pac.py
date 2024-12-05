@@ -90,7 +90,7 @@ plt.plot(X_h, puissance, label="Puissance nécessaire")
 #plt.plot(X, charge_thermique_ete_surface, label="Charge thermique climatisation")
 #plt.plot(X, charge_thermique_hiver_surface, label="Charge thermique chauffage")
 plt.xlabel("Temps (heure)")
-plt.ylabel("Charge thermique(kW)")
+plt.ylabel("Charge thermique (kW)")
 plt.legend(loc="lower left")
 plt.show()
 
